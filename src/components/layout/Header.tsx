@@ -46,7 +46,7 @@ export function Header() {
         </div>
 
         <a 
-          href="https://github.com/denyskozak/qr-code-styling" 
+          href="https://github.com/slxshhh/scanly" 
           target="_blank" 
           rel="noopener noreferrer"
           className="hover:text-primary transition-colors flex items-center gap-2"
