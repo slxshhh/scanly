@@ -1,0 +1,40 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "email": { "type": "string", "format": "email", "description": "User's email" },
+        "photoURL": { "type": "string", "description": "User's profile photo URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "QRCode": {
+      "title": "QRCode",
+      "description": "Saved QR code configuration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique QR ID" },
+        "name": { "type": "string", "description": "User-defined name for the QR" },
+        "options": { "type": "object", "description": "QR styling options (QRState)" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation time" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update time" }
+      },
+      "required": ["name", "options"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/users/{userId}/qrcodes/{qrId}": {
+      "schema": "QRCode",
+      "description": "User's saved QR codes"
+    }
+  }
+}
