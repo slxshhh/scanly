@@ -9,6 +9,7 @@ import { QRState, DotType, CornerSquareType, CornerDotType } from "@/src/types/q
 import { Download, FileJson, Settings2, Palette, Square, Circle, Image as ImageIcon, Layout, QrCode, Upload, Loader2, X } from "lucide-react";
 import { storageService } from "@/src/lib/storageService";
 import { useAuth } from "@/src/components/auth/AuthProvider";
+import { useTranslation } from "@/src/lib/i18n";
 
 interface QRControlsProps {
   options: QRState;
@@ -19,6 +20,7 @@ interface QRControlsProps {
 export function QRControls({ options, setOptions, onExportJSON }: QRControlsProps) {
   const { user } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
+  const { t } = useTranslation();
 
   const updateOption = (path: string, value: any) => {
 // ... existing code ...
@@ -149,12 +151,12 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <Settings2 className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Content & Size</span>
+            <span className="font-bold text-gray-900">{t('contentSize')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">QR Data</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('qrData')}</Label>
             <Input 
               value={options.data} 
               onChange={(e) => updateOption('data', e.target.value)}
@@ -164,7 +166,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           </div>
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-3">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Width ({options.width}px)</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('width')} ({options.width}px)</Label>
               <Slider 
                 value={[options.width || 300]} 
                 min={100} max={1000} step={10}
@@ -173,7 +175,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
               />
             </div>
             <div className="space-y-3">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Height ({options.height}px)</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('height')} ({options.height}px)</Label>
               <Slider 
                 value={[options.height || 300]} 
                 min={100} max={1000} step={10}
@@ -183,7 +185,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             </div>
           </div>
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Outer Margin ({options.margin}px)</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('margin')} ({options.margin}px)</Label>
             <Slider 
               value={[options.margin || 0]} 
               min={0} max={100} step={1}
@@ -201,12 +203,12 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <Palette className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Pattern Style</span>
+            <span className="font-bold text-gray-900">{t('patternStyle')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Dot Pattern</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('dotPattern')}</Label>
             <Select 
               value={options.dotsOptions.type} 
               onValueChange={(v) => updateOption('dotsOptions.type', v)}
@@ -232,12 +234,12 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <Square className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Corner Frames</span>
+            <span className="font-bold text-gray-900">{t('cornerFrames')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Frame Shape</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('frameShape')}</Label>
             <Select 
               value={options.cornersSquareOptions.type} 
               onValueChange={(v) => updateOption('cornersSquareOptions.type', v)}
@@ -263,12 +265,12 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <Circle className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Corner Eyes</span>
+            <span className="font-bold text-gray-900">{t('cornerEyes')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Eye Shape</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('eyeShape')}</Label>
             <Select 
               value={options.cornersDotOptions.type} 
               onValueChange={(v) => updateOption('cornersDotOptions.type', v)}
@@ -294,11 +296,11 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <Layout className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Canvas</span>
+            <span className="font-bold text-gray-900">{t('canvas')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
-          {renderColorOptions('backgroundOptions', 'Canvas', options.backgroundOptions)}
+          {renderColorOptions('backgroundOptions', t('canvas'), options.backgroundOptions)}
         </AccordionContent>
       </AccordionItem>
 
@@ -310,16 +312,16 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <ImageIcon className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Logo & Branding</span>
+            <span className="font-bold text-gray-900">{t('logoBranding')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-8">
           <div className="space-y-4">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Brand Assets</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('brandAssets')}</Label>
             
             {!user ? (
               <div className="p-8 bg-gray-50 rounded-2xl border border-dashed border-gray-200 text-center">
-                <p className="text-xs text-gray-500 font-medium">Login to upload your brand logo</p>
+                <p className="text-xs text-gray-500 font-medium">{t('loginToUpload')}</p>
               </div>
             ) : (
               <div className="flex flex-col gap-4">
@@ -350,7 +352,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
                         <div className="p-3 bg-white rounded-xl shadow-sm group-hover:scale-110 transition-transform">
                           <Upload className="w-6 h-6 text-gray-400 group-hover:text-primary transition-colors" />
                         </div>
-                        <span className="text-xs font-bold text-gray-400 group-hover:text-primary tracking-tight">Upload PNG or SVG</span>
+                        <span className="text-xs font-bold text-gray-400 group-hover:text-primary tracking-tight">{t('uploadLogo')}</span>
                       </>
                     )}
                   </div>
@@ -370,7 +372,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
                       const url = await storageService.uploadQRImage(file);
                       updateOption('image', url);
                     } catch (error) {
-                      alert("Failed to upload image");
+                      alert(t('saveError'));
                     } finally {
                       setIsUploading(false);
                     }
@@ -380,7 +382,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             )}
 
             <div className="space-y-3">
-              <Label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Direct URL</Label>
+              <Label className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('directUrl')}</Label>
               <Input 
                 value={options.image} 
                 onChange={(e) => updateOption('image', e.target.value)}
@@ -391,9 +393,9 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           </div>
 
           <div className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100">
-            <Label className="text-sm font-bold text-gray-700">Clearance</Label>
+            <Label className="text-sm font-bold text-gray-700">{t('clearance')}</Label>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Hide Dots</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">{t('hideDots')}</span>
               <input 
                 type="checkbox" 
                 checked={options.imageOptions.hideBackgroundDots}
@@ -405,7 +407,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           
           <div className="space-y-4">
             <div className="flex justify-between">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Logo Scale</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('logoScale')}</Label>
               <span className="text-xs font-bold text-primary">{Math.round(options.imageOptions.imageSize * 100)}%</span>
             </div>
             <Slider 
@@ -417,7 +419,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           </div>
           <div className="space-y-4">
             <div className="flex justify-between">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Logo Padding</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('logoPadding')}</Label>
               <span className="text-xs font-bold text-primary">{options.imageOptions.margin}px</span>
             </div>
             <Slider 
@@ -437,12 +439,12 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
               <QrCode className="w-4 h-4" />
             </div>
-            <span className="font-bold text-gray-900">Advanced Engine</span>
+            <span className="font-bold text-gray-900">{t('advancedEngine')}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-6 pb-2 px-6 space-y-6">
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Render Engine</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('renderEngine')}</Label>
             <Select 
               value={options.type} 
               onValueChange={(v) => updateOption('type', v)}
@@ -457,7 +459,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
             </Select>
           </div>
           <div className="space-y-3">
-            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Type Number ({options.qrOptions.typeNumber === 0 ? 'Auto' : options.qrOptions.typeNumber})</Label>
+            <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('typeNumber')} ({options.qrOptions.typeNumber === 0 ? 'Auto' : options.qrOptions.typeNumber})</Label>
             <Slider 
               value={[options.qrOptions.typeNumber]} 
               min={0} max={40} step={1}
@@ -467,7 +469,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           </div>
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-3">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Encoding</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('encoding')}</Label>
               <Select 
                 value={options.qrOptions.mode} 
                 onValueChange={(v) => updateOption('qrOptions.mode', v)}
@@ -483,7 +485,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
               </Select>
             </div>
             <div className="space-y-3">
-              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">Correction</Label>
+              <Label className="text-xs font-black uppercase tracking-widest text-gray-400">{t('correction')}</Label>
               <Select 
                 value={options.qrOptions.errorCorrectionLevel} 
                 onValueChange={(v) => updateOption('qrOptions.errorCorrectionLevel', v)}
@@ -512,7 +514,7 @@ export function QRControls({ options, setOptions, onExportJSON }: QRControlsProp
           <div className="p-2 bg-white rounded-xl shadow-sm mr-3 group-hover:scale-110 transition-transform">
             <FileJson className="w-5 h-5 text-gray-400 group-hover:text-primary" />
           </div>
-          <span className="font-black text-sm text-gray-500 group-hover:text-primary tracking-tight">EXPORT CONFIGURATION</span>
+          <span className="font-black text-sm text-gray-500 group-hover:text-primary tracking-tight">{t('exportConfig')}</span>
         </Button>
       </div>
     </Accordion>

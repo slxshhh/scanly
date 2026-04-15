@@ -5,6 +5,7 @@ import { QRState } from '@/src/types/qr';
 import { Trash2, ExternalLink, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTranslation } from "@/src/lib/i18n";
 
 interface SavedQRsProps {
   onLoad: (options: React.SetStateAction<QRState>) => void;
@@ -14,6 +15,7 @@ export function SavedQRs({ onLoad }: SavedQRsProps) {
   const { user } = useAuth();
   const [savedQRs, setSavedQRs] = useState<SavedQRCode[]>([]);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const fetchQRs = async () => {
     if (!user) return;
@@ -33,12 +35,12 @@ export function SavedQRs({ onLoad }: SavedQRsProps) {
   }, [user]);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this QR code?")) return;
+    if (!confirm(t('deleteConfirm'))) return;
     try {
       await qrService.deleteQRCode(id);
       setSavedQRs(prev => prev.filter(qr => qr.id !== id));
     } catch (error) {
-      alert("Failed to delete QR code");
+      alert(t('saveError'));
     }
   };
 
@@ -54,7 +56,7 @@ export function SavedQRs({ onLoad }: SavedQRsProps) {
         </div>
       ) : savedQRs.length === 0 ? (
         <div className="text-center py-12 bg-gray-50/50 rounded-2xl border border-dashed border-gray-100">
-          <p className="text-sm text-gray-400 font-medium">No saved QR codes yet.</p>
+          <p className="text-sm text-gray-400 font-medium">{t('noSaved')}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -83,7 +85,7 @@ export function SavedQRs({ onLoad }: SavedQRsProps) {
                   onClick={() => onLoad(qr.options)}
                   className="flex-1 py-2 bg-gray-900 text-white text-[10px] font-black rounded-xl hover:bg-black transition-all uppercase tracking-widest"
                 >
-                  Load Design
+                  {t('loadDesign')}
                 </button>
               </div>
               

@@ -3,6 +3,7 @@ import { MessageSquare, X, Send, Loader2, Bot, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { aiService } from '@/src/services/aiService';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/src/lib/i18n';
 
 interface Message {
   role: 'user' | 'model';
@@ -10,10 +11,11 @@ interface Message {
 }
 
 export function SupportChat() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', text: 'Hello! I am your Scanly Studio assistant. How can I help you design your perfect QR code today?' }
+    { role: 'model', text: t('agentWelcome') }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -60,10 +62,10 @@ export function SupportChat() {
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-black text-xs uppercase tracking-widest">Studio Agent</h3>
+                  <h3 className="font-black text-xs uppercase tracking-widest">{t('agentTitle')}</h3>
                   <div className="flex items-center gap-1">
                     <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-[10px] text-gray-400 font-bold">ONLINE</span>
+                    <span className="text-[10px] text-gray-400 font-bold">{t('agentOnline')}</span>
                   </div>
                 </div>
               </div>
@@ -117,7 +119,7 @@ export function SupportChat() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder="Ask about QR design..."
+                  placeholder={t('agentPlaceholder')}
                   className="flex-1 h-12 bg-gray-50 border-none rounded-2xl px-4 text-xs font-medium focus:ring-2 focus:ring-primary/20 transition-all"
                 />
                 <button

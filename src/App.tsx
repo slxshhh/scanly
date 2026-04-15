@@ -16,6 +16,7 @@ import { useAuth } from "@/src/components/auth/AuthProvider";
 import { qrService } from "@/src/lib/qrService";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/src/lib/firebase";
+import { useTranslation } from "@/src/lib/i18n";
 
 const initialOptions: QRState = {
   width: 300,
@@ -57,6 +58,7 @@ export default function App() {
   const { user } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const { t } = useTranslation();
 
   const { setOptions: updateQR, containerRef: qrRef, download: dl, exportAsJSON: ex } = useQRCode(options);
 
@@ -67,11 +69,11 @@ export default function App() {
 
   const handleSave = async () => {
     if (!user) {
-      alert("Please login to save your QR codes to the cloud.");
+      alert(t('loginRequired'));
       return;
     }
 
-    const name = prompt("Enter a name for this QR code:", `QR ${new Date().toLocaleTimeString()}`);
+    const name = prompt(t('enterName'), `QR ${new Date().toLocaleTimeString()}`);
     if (!name) return;
 
     setIsSaving(true);
@@ -79,9 +81,9 @@ export default function App() {
       await qrService.saveQRCode(name, options);
       setRefreshKey(prev => prev + 1);
       trackEvent('save_qr_code', { name, data_length: options.data.length });
-      alert("QR code saved successfully!");
+      alert(t('saveSuccess'));
     } catch (error) {
-      alert("Failed to save QR code");
+      alert(t('saveError'));
     } finally {
       setIsSaving(false);
     }
@@ -100,8 +102,8 @@ export default function App() {
           <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
             <div className="p-8 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
               <div>
-                <h2 className="text-2xl font-black tracking-tight text-gray-900">Design Studio</h2>
-                <p className="text-sm text-gray-500 font-medium">Craft your professional QR identity</p>
+                <h2 className="text-2xl font-black tracking-tight text-gray-900">{t('designStudio')}</h2>
+                <p className="text-sm text-gray-500 font-medium">{t('designStudioDesc')}</p>
               </div>
               <div className="flex gap-2">
                 <Button 
@@ -114,7 +116,7 @@ export default function App() {
                   ) : (
                     <Cloud className="w-4 h-4 mr-2" />
                   )}
-                  {isSaving ? "Saving..." : "Save to Cloud"}
+                  {isSaving ? t('saving') : t('saveToCloud')}
                 </Button>
               </div>
             </div>
@@ -131,8 +133,8 @@ export default function App() {
           {user && (
             <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-100/50 overflow-hidden">
               <div className="p-8 border-b border-gray-50 bg-gray-50/30">
-                <h2 className="text-2xl font-black tracking-tight text-gray-900">Asset Vault</h2>
-                <p className="text-sm text-gray-500 font-medium">Your synchronized professional designs</p>
+                <h2 className="text-2xl font-black tracking-tight text-gray-900">{t('assetVault')}</h2>
+                <p className="text-sm text-gray-500 font-medium">{t('assetVaultDesc')}</p>
               </div>
               <div className="p-8">
                 <div key={refreshKey}>
@@ -157,7 +159,7 @@ export default function App() {
               <div className="mt-12 w-full space-y-4">
                 <div className="flex items-center gap-4 mb-2">
                   <div className="h-px flex-1 bg-gray-100" />
-                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Export Options</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">{t('exportOptions')}</span>
                   <div className="h-px flex-1 bg-gray-100" />
                 </div>
 
@@ -166,7 +168,7 @@ export default function App() {
                   className="w-full py-5 bg-gray-900 text-white rounded-2xl font-black text-sm hover:bg-black transition-all shadow-xl shadow-gray-200 flex items-center justify-center gap-3 active:scale-[0.98]"
                 >
                   <Download className="w-5 h-5" />
-                  DOWNLOAD PNG
+                  {t('downloadPng')}
                 </button>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -188,7 +190,7 @@ export default function App() {
 
             <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
               <p className="text-xs text-primary/80 font-bold leading-relaxed text-center">
-                Studio Tip: High-contrast designs ensure 100% scan reliability across all professional print media.
+                {t('studioTip')}
               </p>
             </div>
           </div>

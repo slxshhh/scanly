@@ -1,10 +1,12 @@
-import { Github, LogIn, LogOut, User as UserIcon, QrCode } from "lucide-react";
+import { Github, LogIn, LogOut, User as UserIcon, QrCode, Languages } from "lucide-react";
 import { useAuth } from "@/src/components/auth/AuthProvider";
 import { signInWithGoogle, logout, trackEvent } from "@/src/lib/firebase";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/src/lib/i18n";
 
 export function Header() {
   const { user, loading } = useAuth();
+  const { t, language, setLanguage } = useTranslation();
 
   const handleLogin = async () => {
     try {
@@ -30,9 +32,19 @@ export function Header() {
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
           <QrCode className="w-5 h-5" />
         </div>
-        <span className="tracking-tighter">Scanly</span>
+        <span className="tracking-tighter">{t('brand')}</span>
       </div>
       <div className="flex items-center gap-6 text-sm font-medium text-gray-500">
+        <div className="flex items-center gap-2 border-r border-gray-100 pr-6 mr-2">
+          <button 
+            onClick={() => setLanguage(language === 'en' ? 'pt' : 'en')}
+            className="flex items-center gap-2 hover:text-primary transition-colors uppercase tracking-widest text-[10px] font-black"
+          >
+            <Languages className="w-3.5 h-3.5" />
+            {language === 'en' ? 'PT-BR' : 'EN-US'}
+          </button>
+        </div>
+
         <a 
           href="https://github.com/denyskozak/qr-code-styling" 
           target="_blank" 
@@ -40,7 +52,7 @@ export function Header() {
           className="hover:text-primary transition-colors flex items-center gap-2"
         >
           <Github className="w-4 h-4" />
-          GitHub
+          {t('github')}
         </a>
 
         {loading ? (
@@ -79,7 +91,7 @@ export function Header() {
             className="rounded-full px-6 shadow-sm"
           >
             <LogIn className="w-4 h-4 mr-2" />
-            Login
+            {t('login')}
           </Button>
         )}
       </div>

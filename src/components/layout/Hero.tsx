@@ -1,6 +1,9 @@
 import { motion } from "motion/react";
+import { useTranslation } from "@/src/lib/i18n";
 
 export function Hero() {
+  const { t } = useTranslation();
+
   return (
     <section className="relative pt-40 pb-24 px-6 overflow-hidden bg-white">
       {/* Subtle Background Elements */}
@@ -28,8 +31,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           className="text-7xl md:text-9xl font-black tracking-tight text-gray-900 mb-8 leading-[0.85]"
         >
-          SCANLY <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-accent">STUDIO</span>
+          {t('heroTitle')} <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-500 to-accent">{t('studio')}</span>
         </motion.h1>
         
         <motion.div
@@ -39,8 +42,7 @@ export function Hero() {
           className="max-w-2xl mx-auto"
         >
           <p className="text-xl md:text-2xl text-gray-500 font-medium leading-relaxed">
-            The professional standard for QR design. 
-            <span className="text-gray-900"> High-performance</span>, cloud-synced, and built for modern brands.
+            {t('heroSubtitle')}
           </p>
         </motion.div>
       </div>
